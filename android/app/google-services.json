@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "612718834948",
+    "project_id": "cantwait47",
+    "storage_bucket": "cantwait47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612718834948:android:7b8bae1e6ab58f8de64c51",
+        "android_client_info": {
+          "package_name": "com.mateuszwilkon.cantwait28"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "612718834948-909kngkt7vfv2ulfufvugkclpp1pbm0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCputQqhyHWO-OWQfFp1DIxYizvEM0jPHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "612718834948-909kngkt7vfv2ulfufvugkclpp1pbm0n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "612718834948-f3jdg579qbalu4fqjro7jbeubtl7nj1g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mateuszwilkon.cantwait28"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
