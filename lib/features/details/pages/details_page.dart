@@ -1,15 +1,18 @@
-import 'package:cantwait28/features/add/page/add_page.dart';
-import 'package:cantwait28/features/details/pages/details_page.dart';
-import 'package:cantwait28/features/home/cubit/home_cubit.dart';
+
 import 'package:cantwait28/models/item_model.dart';
 import 'package:cantwait28/repositories/items_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({
+import '../../Details/cubit/details_cubit.dart';
+
+class DetailsPage extends StatelessWidget {
+  const DetailsPage({
+    required this.id,
     Key? key,
   }) : super(key: key);
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -17,74 +20,28 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Can\'t Wait 🤩'),
       ),
-      body: const _HomePageBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AddPage(),
-              fullscreenDialog: true,
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class _HomePageBody extends StatelessWidget {
-  const _HomePageBody({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(ItemsRepository())..start(),
-      child: BlocBuilder<HomeCubit, HomeState>(
+      body: BlocProvider(
+      create: (context) => DetailsCubit(ItemsRepository())..getItemWithID(id),
+      child: BlocBuilder<DetailsCubit, DetailsState>(
         builder: (context, state) {
-          final itemModels = state.items;
-          if (itemModels.isEmpty) {
-            return const SizedBox.shrink();
+          final itemModel = state.itemModel;
+          if (itemModel == null) {
+            return const CircularProgressIndicator();
           }
           return ListView(
             padding: const EdgeInsets.symmetric(
               vertical: 20,
             ),
             children: [
-              for (final itemModel in itemModels)
-                Dismissible(
-                  key: ValueKey(itemModel.id),
-                  background: const DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 32.0),
-                        child: Icon(
-                          Icons.delete,
-                        ),
-                      ),
-                    ),
-                  ),
-                  confirmDismiss: (direction) async {
-                    // only from right to left
-                    return direction == DismissDirection.endToStart;
-                  },
-                  onDismissed: (direction) {
-                    context.read<HomeCubit>().remove(documentID: itemModel.id);
-                  },
-                  child: _ListViewItem(
-                    itemModel: itemModel,
-                  ),
+                _ListViewItem(
+                  itemModel: itemModel,
                 ),
             ],
           );
         },
       ),
+    ),
+      
     );
   }
 }
@@ -101,7 +58,10 @@ class _ListViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsPage(id: itemModel.id),));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsPage(id:itemModel.id),
+          ),
+        );
+        
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
